@@ -19,12 +19,12 @@ class CreateMessage extends Migration
             'is_read'     => ['type' => 'BOOLEAN', 'default' => false],
             'is_answered' => ['type' => 'BOOLEAN', 'default' => false],
         ]);
-        $this->forge->addKey('id', true);
-        $this->forge->createTable('messages');
+        $this->forge->addPrimaryKey('id');
+        $this->forge->createTable('message');
     }
 
     public function down()
     {
-        $this->forge->dropTable('messages');
+        $this->forge->dropTable('message');
     }
 }
