@@ -22,8 +22,7 @@ class CreateUser extends Migration
             'password' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255',
-                'null' => false,
-                'unique' => true
+                'null' => false
             ],
             'created_at datetime default current_timestamp',
             'updated_at' => [
