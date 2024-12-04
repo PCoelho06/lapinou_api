@@ -16,6 +16,14 @@ class MessageController extends ResourceController
 
     public function show($id = null)
     {
+        if (is_null($id)) {
+            return $this->fail('Missing id');
+        }
+
+        if (is_null($this->model->find($id))) {
+            return $this->failNotFound('Message not found');
+        }
+
         return $this->respond($this->model->find($id));
     }
 
@@ -27,21 +35,21 @@ class MessageController extends ResourceController
             'email' => 'required|valid_email',
             'message' => 'required'
         ];
-        
+
         $data = $this->request->getJSON(true);
 
-        if(array_key_exists('filter', $data)) {
+        if (array_key_exists('filter', $data)) {
             return $this->respondCreated($data);
         }
 
-        if(!$this->validate($rules)) {
+        if (!$this->validate($rules)) {
             return $this->failValidationErrors($this->validator->getErrors());
         }
 
         if ($this->model->insert($data)) {
             return $this->respondCreated($data);
         }
-        
+
         return $this->fail($this->model->errors());
     }
 
@@ -53,7 +61,7 @@ class MessageController extends ResourceController
             return $this->failNotFound('Message not found');
         }
 
-        if($data['is_read'] == 1) {
+        if ($data['is_read'] == 1) {
             return $this->fail('Message already marked as read');
         } else {
             $data['is_read'] = 1;
@@ -74,7 +82,7 @@ class MessageController extends ResourceController
             return $this->failNotFound('Message not found');
         }
 
-        if($data['is_answered'] == 1) {
+        if ($data['is_answered'] == 1) {
             return $this->fail('Message already marked as answered');
         } else {
             $data['is_answered'] = 1;
