@@ -6,6 +6,15 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
+$routes->options('(:any)', [
+    function () {
+        return service('response')
+            ->setStatusCode(200)
+            ->setHeader('Access-Control-Allow-Origin', '*') // Ajuster les origines si nécessaire
+            ->send();
+    }
+]);
+
 $routes->group("auth", function (RouteCollection $routes) {
     $routes->post('auth/register', 'AuthController::register');
     $routes->post('auth/login', 'AuthController::login');
