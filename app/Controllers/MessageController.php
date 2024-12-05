@@ -52,23 +52,19 @@ class MessageController extends ResourceController
             return $this->failValidationErrors($this->validator->getErrors());
         }
 
-        $message = $this->model->insert($data);
-        if ($message) {
+        if ($this->model->insert($data, false)) {
             $email = \Config\Services::email();
 
             $email->setFrom('contact@lapinou.tech', 'Portfolio Lapinou.tech');
             $email->setTo('p.coelho@lapinou.tech');
             $email->setSubject('Nouveau message reçu');
-            $email->setMessage('Tu as reçu un nouveau message de' + $message['first_name'] + ' ' + $data . ['last_name'] + '.\n Pour voir son message, clique sur le lien suivant: https://secure.lapinou.tech/messages/' + $message['id']);
+            $email->setMessage('Tu as reçu un nouveau message de' + $data['first_name'] + ' ' + $data['last_name'] + '.\n Pour voir son message, clique sur le lien suivant: https://secure.lapinou.tech/messages/' + $this->model->getInsertID());
 
             if (!$email->send()) {
                 log_message('error', 'Failed to send email: ' . $email->printDebugger(['headers']));
             }
 
-            return $this->respondCreated($message);
-        }
-        if (is_null($message)) {
-            return $this->fail('An error occurred while processing your request');
+            return $this->respondCreated($data);
         }
 
         return $this->fail($this->model->errors());
