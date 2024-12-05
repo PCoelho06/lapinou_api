@@ -11,7 +11,12 @@ class MessageController extends ResourceController
 
     public function index()
     {
-        return $this->respond($this->model->findAll());
+        try {
+            return $this->respond($this->model->findAll());
+        } catch (\Exception $e) {
+            log_message('error', $e->getMessage());
+            return $this->failServerError('An error occurred while processing your request');
+        }
     }
 
     public function show($id = null)
@@ -20,11 +25,13 @@ class MessageController extends ResourceController
             return $this->fail('Missing id');
         }
 
-        if (is_null($this->model->find($id))) {
+        $message = $this->model->find($id);
+
+        if (is_null($message)) {
             return $this->failNotFound('Message not found');
         }
 
-        return $this->respond($this->model->find($id));
+        return $this->respond($message);
     }
 
     public function create()
