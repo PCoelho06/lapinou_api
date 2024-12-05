@@ -58,7 +58,7 @@ class MessageController extends ResourceController
             $email->setFrom('contact@lapinou.tech', 'Portfolio Lapinou.tech');
             $email->setTo('p.coelho@lapinou.tech');
             $email->setSubject('Nouveau message reçu');
-            $email->setMessage('Tu as reçu un nouveau message de' + $data['first_name'] + ' ' + $data['last_name'] + '.\n Pour voir son message, clique sur le lien suivant: https://secure.lapinou.tech/messages/' + $this->model->getInsertID());
+            $email->setMessage('Tu as reçu un nouveau message de' + $data['first_name'] . ' ' . $data['last_name'] . '.\n Pour voir son message, clique sur le lien suivant: https://secure.lapinou.tech/messages/' . $this->model->getInsertID());
 
             if (!$email->send()) {
                 log_message('error', 'Failed to send email: ' . $email->printDebugger(['headers']));
