@@ -44,7 +44,7 @@ class MessageController extends ResourceController
 
         $data = $this->request->getJSON(true);
 
-        if (array_key_exists('antispam', $data)) {
+        if ($data['antispam'] != '') {
             return $this->respondCreated($data);
         }
 
