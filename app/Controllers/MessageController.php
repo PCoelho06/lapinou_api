@@ -44,7 +44,7 @@ class MessageController extends ResourceController
 
         $data = $this->request->getJSON(true);
 
-        if (array_key_exists('filter', $data)) {
+        if (array_key_exists('antispam', $data)) {
             return $this->respondCreated($data);
         }
 
@@ -52,7 +52,7 @@ class MessageController extends ResourceController
             return $this->failValidationErrors($this->validator->getErrors());
         }
 
-        $message = $this->model->create($data);
+        $message = $this->model->insert($data);
         if ($message) {
             $email = \Config\Services::email();
 
