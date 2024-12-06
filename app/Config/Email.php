@@ -28,22 +28,22 @@ class Email extends BaseConfig
     /**
      * SMTP Server Hostname
      */
-    public string $SMTPHost = getenv('SMTP_HOST');
+    public string $SMTPHost;
 
     /**
      * SMTP Username
      */
-    public string $SMTPUser = getenv('SMTP_USER');
+    public string $SMTPUser;
 
     /**
      * SMTP Password
      */
-    public string $SMTPPass = getenv('SMTP_PASS');
+    public string $SMTPPass;
 
     /**
      * SMTP Port
      */
-    public int $SMTPPort = 465;
+    public int $SMTPPort;
 
     /**
      * SMTP Timeout (in seconds)
@@ -118,4 +118,14 @@ class Email extends BaseConfig
      * Enable notify message from server
      */
     public bool $DSN = false;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->SMTPHost  = getenv('SMTP_HOST');
+        $this->SMTPUser  = getenv('SMTP_USER');
+        $this->SMTPPass  = getenv('SMTP_PASS');
+        $this->SMTPPort  = (int) (getenv('SMTP_PORT'));
+    }
 }
