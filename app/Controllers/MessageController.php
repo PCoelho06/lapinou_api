@@ -55,7 +55,7 @@ class MessageController extends ResourceController
         if ($this->model->insert($data, false)) {
             $email = \Config\Services::email();
 
-            $email->setFrom('p.coelho@lapinou.tech', 'Portfolio Lapinou.tech');
+            $email->setFrom('contact@lapinou.tech', 'Portfolio Lapinou.tech');
             $email->setTo('p.coelho@lapinou.tech');
             $email->setSubject('Nouveau message reçu');
             $email->setMessage('Tu as reçu un nouveau message de' . $data['first_name'] . ' ' . $data['last_name'] . '.\n Pour voir son message, clique sur le lien suivant: https://secure.lapinou.tech/messages/' . $this->model->getInsertID());
