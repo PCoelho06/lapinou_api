@@ -45,7 +45,7 @@ class AuthController extends ResourceController
         return $this->getJWTForUser($input['email']);
     }
 
-    private function getJWTForUser($email, int $responseCode = ResponseInterface::HTTP_OK)
+    private function getJWTForUser(string $email, int $responseCode = ResponseInterface::HTTP_OK)
     {
         try {
             $user = $this->model->findUserByEmailAddress($email);
