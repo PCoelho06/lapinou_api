@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\CorsController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -8,12 +9,7 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->options(
     '(:any)',
-    function () {
-        return service('response')
-            ->setStatusCode(200)
-            ->setHeader('Access-Control-Allow-Origin', '*') // Ajuster les origines si nécessaire
-            ->send();
-    }
+    'CorsController::handleOptions'
 );
 
 $routes->group("auth", function (RouteCollection $routes) {
@@ -24,6 +20,7 @@ $routes->group("auth", function (RouteCollection $routes) {
 $routes->group('v1', function (RouteCollection $routes) {
     $routes->resource('messages', ['controller' => 'MessageController', 'only' => ['index', 'show', 'create', 'delete']]);
     $routes->put('messages/(:segment)/read', 'MessageController::markAsRead/$1');
+    $routes->put('messages/(:segment)/unread', 'MessageController::markAsUnread/$1');
     $routes->put('messages/(:segment)/answered', 'MessageController::markAsAnswered/$1');
 
     $routes->resource('articles', ['controller' => 'ArticleController', 'only' => ['index', 'show', 'create', 'update', 'delete']]);

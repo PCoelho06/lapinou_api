@@ -70,7 +70,7 @@ class MessageController extends ResourceController
         return $this->fail($this->model->errors());
     }
 
-    public function markAsRead($id = null)
+    function updateStatus($id, string $key, int $status)
     {
         $data = $this->model->find($id);
 
@@ -78,10 +78,10 @@ class MessageController extends ResourceController
             return $this->failNotFound('Message not found');
         }
 
-        if ($data['is_read'] == 1) {
-            return $this->fail('Message already marked as read');
+        if ($data[$key] == $status) {
+            return $this->fail('Message already marked as ' . ($key === 'is_read' ? 'read' : ($key === 'is_unread' ? 'unread' : 'answered')));
         } else {
-            $data['is_read'] = 1;
+            $data[$key] = $status;
         }
 
         if ($this->model->update($id, $data)) {
@@ -91,25 +91,19 @@ class MessageController extends ResourceController
         return $this->fail($this->model->errors());
     }
 
+    public function markAsRead($id = null)
+    {
+        return $this->updateStatus($id, 'is_read', 1);
+    }
+
+    public function markAsUnread($id = null)
+    {
+        return $this->updateStatus($id, 'is_read', 0);
+    }
+
     public function markAsAnswered($id = null)
     {
-        $data = $this->model->find($id);
-
-        if ($data == null) {
-            return $this->failNotFound('Message not found');
-        }
-
-        if ($data['is_answered'] == 1) {
-            return $this->fail('Message already marked as answered');
-        } else {
-            $data['is_answered'] = 1;
-        }
-
-        if ($this->model->update($id, $data)) {
-            return $this->respondUpdated($data);
-        }
-
-        return $this->fail($this->model->errors());
+        return $this->updateStatus($id, 'is_answered', 1);
     }
 
     public function delete($id = null)

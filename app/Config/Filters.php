@@ -74,7 +74,7 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
-            'cors'
+            // 'cors'
         ],
         'after' => [
             // 'honeypot',
@@ -108,5 +108,6 @@ class Filters extends BaseFilters
      */
     public array $filters = [
         // 'auth' => ['before' => ['v1/*']],
+        'cors' => ['before' => ['v1/*', 'auth/*']],
     ];
 }
