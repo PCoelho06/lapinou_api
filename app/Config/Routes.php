@@ -17,8 +17,8 @@ $routes->options(
 );
 
 $routes->group("auth", function (RouteCollection $routes) {
-    $routes->post('auth/register', 'AuthController::register');
-    $routes->post('auth/login', 'AuthController::login');
+    $routes->post('register', 'AuthController::register');
+    $routes->post('login', 'AuthController::login');
 });
 
 $routes->group('v1', function (RouteCollection $routes) {
